@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
+    <div id="app">
+        <!-- <poke-card 
+            :pokeInfo="pokemonList[0]"
+        ></poke-card> -->
+        <div class="container">
+            <poke-card 
+                v-for="pokemon of pokemonList" 
+                :key="pokemon.number"
+                :pokeInfo="pokemon"
+            >
+            </poke-card>
+        </div>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-
+import virtualList from 'vue-virtual-scroll-list';
+import PokeCard from './components/pokemon-card.vue';
+import { pokemons } from '../db.js';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    components: {
+        virtualList,
+        PokeCard,
+    },
+    data (){
+        return {
+            pokemonList: pokemons,
+        };
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    html, body, #app{
+        height: 100%;
+    }
+    body{
+        padding: 20px;
+
+    }
+    .container{
+        display: flex;
+        flex-wrap: wrap;
+    }
 </style>
