@@ -28,7 +28,19 @@ export default {
         return {
             pokemonList: pokemons,
         };
-    }
+    },
+    computed: {
+        long (){
+            let hight = '';
+
+            for(let p of pokemons){
+                if(p.name.length > hight.length){
+                    hight = p.name;
+                }
+            }
+            return hight;
+        }
+    },
 }
 </script>
 

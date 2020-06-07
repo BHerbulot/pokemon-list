@@ -1,17 +1,23 @@
 <template>
 <div 
 	class="poke-card" 
+	:class="{extended: extended}"
+	:id="pokeInfo.number"
 	:style="{backgroundColor: backColor}"
 	@click="sayName"
 >
-	<img :src="pokeInfo.src" >
-	<h3>{{ pokeInfo.name }}</h3>
-	<span 
-		v-for="(type, index) in pokeInfo.type" 
-		:key="index"
-		:class="[type.className]"
-		class="pill"
-	>{{type.type}}</span>
+	<div class="left-part">
+		<img :src="pokeInfo.src" >
+		<h3>{{ pokeInfo.name }}</h3>
+		<span 
+			v-for="(type, index) in pokeInfo.type" 
+			:key="index"
+			:class="[type.className]"
+			class="pill"
+		>{{type.type}}</span>
+	</div>
+	<div class="right-part"></div>
+	<div class="right-bar" @click="extended = !extended"></div>
 </div>
 </template>
 
@@ -33,6 +39,7 @@ export default {
 
     data: function(){
         return {
+        	extended: false,
         	colors: {
 				'background-color-grass' : '#9bcc50',
 				'background-color-poison' : '#b97fc9',
@@ -73,6 +80,10 @@ export default {
     		let voiceText = new SpeechSynthesisUtterance(this.pokeInfo.name);
     		voiceText.voice = voice[0];
     		synth.speak(voiceText);
+    	},
+
+    	extend (){
+    		// "https://pokeapi.co/api/"
     	}
     },
 };
@@ -80,13 +91,50 @@ export default {
 
 <style>
 	.poke-card{
-		padding: 20px 20px 60px 20px ;
 		border: 1px solid #000;
 		width: 250px;
 		text-align: center;
 		border-radius: 15px;
+		position: relative;
+		transition: width .5s;
 		margin-right: 20px;
 		margin-bottom: 20px;
+		display: flex;
+	}
+	.extended{
+		width: 550px;
+
+	}
+	.left-part{
+		padding: 20px 20px 60px 20px ;
+		width: 200px;
+	}
+	.right-part{
+		padding: 20px;
+		width: auto;
+	}
+	.right-bar{
+		position: absolute;
+		height: 100%;
+		width: 25px;
+	    right: 0;
+	    top: 0;
+		border-top-right-radius: 15px;
+		border-bottom-right-radius: 15px;
+	    cursor: pointer;
+	}
+	.right-bar:hover{
+		background-color: rgba(0,0,0,0.4);
+	}
+	.right-bar::after{
+		position: absolute;
+	  	content: url('../../static/chevron.svg');
+	  	height: 25px;
+	 	width: 25px;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%) rotate(-90deg);
+
 	}
 	.poke-card img{
 		width: 215px;
